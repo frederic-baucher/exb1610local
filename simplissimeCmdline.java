@@ -45,15 +45,27 @@ public class simplissimeCmdline {
 			
 			// java -cp ".\postgresql-42.2.5.jar;commons-cli-1.4.jar;." simplissimeCmdline -u -id 178 -nom MER -cp 41500
             if ( cl.hasOption('u') )
-			{
-					System.out.println( "\n\nMettre a jour encore le code postal dans la base\n" ) ;
-					String sId = cl.getOptionValue("id") ;
-					Integer id = Integer.parseInt(sId);
-					String nom = cl.getOptionValue("nom") ;
-					String sCp = cl.getOptionValue("cp") ;
-					Integer cp = Integer.parseInt(sCp);
-					display = txn.updateVille ( id, nom, cp ) ;
-					System.out.println( display ) ;
+            {
+		System.out.println( "\n\nMettre a jour encore le code postal dans la base\n" ) ;
+		String sId = cl.getOptionValue("id") ;
+		Integer id ;
+
+		// EXB1613 - premier piège - traiter l'absence de l'option -id sur la ligne de commande
+		if ( sId != null )
+		{
+			id = Integer.parseInt(sId);
+		}
+		else
+		{
+			// si l'option -id est absente, alors on met null pour l'id.
+			id = null ;
+		}
+
+		String nom = cl.getOptionValue("nom") ;
+		String sCp = cl.getOptionValue("cp") ;
+		Integer cp = Integer.parseInt(sCp);
+		display = txn.updateVille ( id, nom, cp ) ;
+		System.out.println( display ) ;
             }
 
 			// java -cp ".\postgresql-42.2.5.jar;commons-cli-1.4.jar;." simplissimeCmdline -e
